@@ -18,31 +18,65 @@ function toggleHeader(){
     }
 };
 
-
 $(document).scroll(function(){
     toggleHeader();
 })
 
 $(document).ready(function(){
+    $(function () { objectFitImages() });
+  jQuery('.open-nav').click(function(e) {
+    e.preventDefault();
+    jQuery('.menu-icon').toggleClass('opened');
+  });
     $('.slider').slick({
         arrows: false,
         swipe: false,
         // autoplay: true,
         dots: true,
-        // responsive: [
-        //     {
-        //       breakpoint: 990, // - от какой ширины изменять настройки(1024 и ниже)
-        //       settings: {
-        //         // вносим изменения на ширине 1024 и ниже 
-        //         slidesToShow: 1,
-        //         slidesToScroll: 1,
-        //         // centerMode: true
-        //       }
-        //     }
-        //   ]
     });
     $('.open-nav').click(function (e) { 
         e.preventDefault();
         $('.gadgets-nav_wrap').slideToggle(300);
     });
+    $('.gallery').masonry({
+        // options
+        itemSelector: '.gallery-item',
+        columnWidth: '.size',
+        percentPosition: true,
+        isResizable: true
+    });
+    $('.gallery').imagesLoaded( function() {
+        // images have loaded
+      });
+      // options
+      $('.gallery').imagesLoaded( {
+        // options...
+        },
+        function() {
+          // images have loaded
+        }
+      );
+    $(".gallery-item").mouseenter(function() {
+        var wrap = $(this).find('.item-text');
+        var img = $(this).find('img');
+        wrap.css("display", "block");
+        img.css("filter", "grayscale(1)");
+        $(this).mouseleave(function() {
+            wrap.css("display", "none");
+            img.css("filter", "grayscale(0)")
+      });
+    });
+    $('.img-link').magnificPopup({
+        type: 'image',
+        callbacks: {
+            open: function() {
+                $('.header').css('position', 'static');
+            },
+            close: function() {
+                $('.header').css('position', 'fixed');
+            }
+            // e.t.c.
+          }
+      });
   });
+
